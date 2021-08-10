@@ -2,6 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  console.log('branchA');
+  console.log('branchA');
+  console.log('branchA');
   return (
     <div className="App">
       <header className="App-header">
