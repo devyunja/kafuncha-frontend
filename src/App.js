@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   console.log('branchA');
-  console.log('branchA');
+  console.log('branchB');
   console.log('branchA');
   return (
     <div className="App">

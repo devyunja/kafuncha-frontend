@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 console.log('branchA');
-console.log('branchA');
+console.log('branchB');
 console.log('branchA');
 
 ReactDOM.render(
