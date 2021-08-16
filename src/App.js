@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './App.css'; 
 import axios from 'axios';
+
   function App() {
       const [history, setHistory] = useState([]);
-  
+
       useEffect(() => {
         fetchChatHistory();
       }, []);
@@ -18,7 +19,6 @@ import axios from 'axios';
         {history.map((history, index) => <div key={index}>[{history.date}] {history.user}: {history.message}</div>)}
       </div>
     );
-
 }
 
 export default App;
