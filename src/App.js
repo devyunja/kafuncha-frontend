@@ -1,8 +1,6 @@
-import React, { Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css'; 
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-
   function App() {
       const [history, setHistory] = useState([]);
   
@@ -16,7 +14,6 @@ import { useEffect, useState } from 'react';
       };
       
     return(
-
       <div>
         {history.map((history, index) => <div key={index}>[{history.date}] {history.user}: {history.message}</div>)}
       </div>
