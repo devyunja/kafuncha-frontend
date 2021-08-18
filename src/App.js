@@ -13,7 +13,7 @@ import axios from 'axios';
         const res = await axios('https://programming.coffee/history');
         setHistory(res.data);
       };
-      
+      console.log('Hello World');
     return(
       <div>
         {history.map((history, index) => <div key={index}>[{history.date}] {history.user}: {history.message}</div>)}
