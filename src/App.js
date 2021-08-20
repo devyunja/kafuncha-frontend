@@ -13,6 +13,8 @@ import axios from 'axios';
         const res = await axios('https://programming.coffee/history');
         setHistory(res.data);
       };
+
+      console.log('test');
       
     return(
       <div>
