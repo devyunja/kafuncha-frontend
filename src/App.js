@@ -4,17 +4,15 @@ import {BrowserRouter,Route, Switch} from 'react-router-dom';
 
 export default function App(){
   return (
-    <div>
       <BrowserRouter>
         <Switch>
           <Route exact path ="/">
             <Intro />
           </Route>
-          <Route path="/info">
+          <Route path="/dashboard">
             <Dashboard />
           </Route>
         </Switch>
       </BrowserRouter>
-    </div>
   );
 }

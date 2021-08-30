@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 export default function ShowChatHistory(){
-    console.log('111');
     const [history, setHistory] = useState([]);
 
       useEffect(() => {
