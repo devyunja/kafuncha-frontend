@@ -1,5 +1,5 @@
-import Intro from './component/Intro';
-import Dashboard from './component/Dashboard';
+import Intro from './pages/Intro';
+import Dashboard from './pages/Dashboard';
 import {BrowserRouter,Route, Switch} from 'react-router-dom';
 
 export default function App(){
