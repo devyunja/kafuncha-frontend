@@ -1,27 +1,27 @@
 # Kafuncha
 
-> 오픈카카오톡 데이터 통계 어플리케이션
-
-### 기술스택
-
-- HTML/CSS/JS
-- React.js
+> Analytical tool for KakaoTalk chat
 
 ### System Requirements
 
-- Node.js
-- NPM
+- Node.js (v14.17.3 or higher)
+- NPM (v6.14.13 or higher)
 
-### 실행방법
+### Required tools
 
-1. 레포지터리 클론
-2. npm install
-3. npm start
+- Microsoft Visual Studio Code
 
-### 프론트엔드 프로젝트 노션
+### How to install and run the app
+
+1. Clone this repository
+2. Change the directory into the repository on your local machine
+2. Run `npm install`
+3. Run `npm start`
+
+### Project notion page
 
 > https://busy-mandrill-84b.notion.site/Kafuncha-579e37e48abd4a9887fb0a78e7f518bb
 
-### 백앤드 API 리스트
+### Backend API services
 
 > https://github.com/devyunja/kafuncha
