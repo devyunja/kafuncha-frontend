@@ -1,0 +1,17 @@
+{
+  "extends": ["react-app", "eslint:recommended"],
+  "ignorePatterns": ["node_modules"],
+  "rules": {
+    "no-use-before-define": ["error"],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_",
+        "args": "all",
+        "ignoreRestSiblings": false
+      }
+    ]
+  }
+}

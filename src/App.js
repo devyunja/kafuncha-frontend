@@ -1,23 +1,18 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import Intro from './pages/Intro';
+import Dashboard from './pages/Dashboard';
+import {BrowserRouter,Route, Switch} from 'react-router-dom';
 
-function App() {
-  const [history, setHistory] = useState([]);
-
-  useEffect(() => {
-    fetchChatHistory();
-  }, []);
-
-  const fetchChatHistory = async () => {
-    const res = await axios('https://programming.coffee/history');
-    setHistory(res.data);
-  };
-
+export default function App(){
   return (
-    <div>
-      {history.map((history, index) => <div key={index}>[{history.date}] {history.user}: {history.message}</div>)}
-    </div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path ="/">
+            <Intro />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+        </Switch>
+      </BrowserRouter>
   );
 }
-
-export default App;
