@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  background-color: #282c34;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -35,4 +39,46 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.dashboard-header {
+  background-color: blue;
+  height: 70px;
+}
+
+.ranking {
+  display: Flex;
+  justify-content: space-around;
+}
+
+.sideBar {
+  float: left;
+  width: 15%;
+  background-color: blueviolet;
+  height: 100vh;
+}
+
+/* Main */
+
+.main {
+}
+/* Chat card */
+.chat-card {
+  background-color: #282c34;
+  width: 300px;
+}
+
+.card-header {
+  display: flex;
+}
+
+.ranking {
+  display: Flex;
+  flex-direction: column;
+}
+
+.ranking .ranking_ranker {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
