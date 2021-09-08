@@ -1,7 +1,12 @@
-import ChatRank from '../components/cards/ChatRank';
-import MentionRank from '../components/cards/MentionRank';
-import MutedRank from '../components/cards/MutedRank';
-import KeywordRank from '../components/cards/KeywordRank';
+import ChatRank from '../cards/ChatRank';
+import MentionRank from '../cards/MentionRank';
+import MutedRank from '../cards/MutedRank';
+import KeywordRank from '../cards/KeywordRank';
+import styled from 'styled-components';
+
+// const Div = styled.div`
+// background-color:yellowgreen
+// `;
 
 export function Dashboard() {
     return (
