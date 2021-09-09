@@ -1,10 +1,45 @@
-import { Link } from "react-router-dom";
+import { useRef } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useGlobalState } from '../shared/hook'
 
-export default function Intro(){
-    return(
-        <div>
-            <h1>업로드 전 '인트로 화면'입니다.</h1>
-            <Link to="/dashboard">대시보드 Go!!</Link>
-        </div>
-    );
+import { PATHS } from '../Routes'
+
+export default function Intro() {
+  const inputRef = useRef(null)
+  const history = useHistory()
+  const [, setGlobalState] = useGlobalState()
+
+  async function uploadFile() {
+    const file = inputRef.current?.files?.[0]
+
+    if (file) {
+      const formData = new FormData()
+
+      formData.append('chat_history', file)
+
+      const res = await fetch('https://programming.coffee/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (res.ok) {
+        const data = await res.text()
+
+        window.localStorage.setItem('fileName', data)
+        setGlobalState({ fileName: data })
+
+        history.push(PATHS.dashboard)
+      }
+    }
+  }
+
+  return (
+    <div>
+      <div>업로드</div>
+      <div>
+        <input ref={inputRef} type="file" accept=".csv" />
+        <button onClick={uploadFile}>업로드</button>
+      </div>
+    </div>
+  )
 }

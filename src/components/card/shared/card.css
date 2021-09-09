@@ -1,0 +1,71 @@
+.card-short {
+  width: 270px;
+  height: 370px;
+  margin-left: 50px;
+  padding: 30px;
+  background: #fff;
+}
+
+.card-long {
+  width: 270px;
+  height: 570px;
+  margin-left: 50px;
+  padding: 30px;
+  background: #fff;
+}
+
+.card-header {
+  height: 50px;
+  border-bottom: 2px solid #c8c8c8;
+  margin-bottom: 20px;
+}
+
+.card-header-title {
+  font-weight: 900;
+  font-size: 24px;
+}
+
+.rank-sort {
+  float: right;
+  font-weight: lighter;
+}
+
+.rank-sort-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+}
+
+.rank-sort-item {
+  border: 1px solid #666;
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.bar-list {
+  margin-bottom: 20px;
+}
+
+.bar-item {
+  padding: 15px 0;
+}
+
+.bar-bg-line {
+  width: 100%;
+  position: relative;
+  height: 5px;
+  border-radius: 2px;
+  background: #cccccc;
+}
+
+.bar-line {
+  height: 5px;
+  border-radius: 2px;
+  position: absolute;
+  background: red;
+}

@@ -1,10 +1,50 @@
-import { Link } from 'react-router-dom';
+import './dashboard.css'
 
-export default function Dashboard(){
-    return(
-        <div>
-            <h1>업로드 후 '대시보드 화면'입니다.</h1>
-            <Link to="/">인트로 Go!!</Link>
+import { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useGlobalState } from '../shared/hook'
+
+import { PATHS } from '../Routes'
+
+import { Header, Sidebar } from '../components/shared'
+import {
+  ChatRank,
+  MentionRank,
+  MutedRank,
+  KeywordRank,
+} from '../components/card'
+
+export default function Dashboard() {
+  const history = useHistory()
+  const [globalState, setGlobalState] = useGlobalState()
+
+  useEffect(() => {
+    const fileNameFromStorage = window.localStorage.getItem('fileName')
+
+    if (!globalState.fileName && !fileNameFromStorage) {
+      history.push(PATHS.intro)
+      return
+    }
+
+    if (!globalState.fileName && fileNameFromStorage) {
+      setGlobalState({ fileName: fileNameFromStorage })
+      return
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  return (
+    <div id="wrapper">
+      <Header />
+      <div id="content-wrapper">
+        <Sidebar />
+        <div id="ranks">
+          <ChatRank />
+          <MentionRank />
+          <MutedRank />
+          <KeywordRank />
         </div>
-    );
+      </div>
+    </div>
+  )
 }
