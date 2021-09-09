@@ -1,5 +1,5 @@
 export default function MentionRank() {
     return (
-        <h2>this is MentionRank</h2>
+        <h4>🟢 Mention card</h4>
     )
-}
+} 
