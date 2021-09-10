@@ -2,6 +2,10 @@
 
 > Analytical tool for KakaoTalk chat
 
+### Application URL
+
+- https://kafuncha.programming.coffee
+
 ### System Requirements
 
 - Node.js (v14.17.3 or higher)
