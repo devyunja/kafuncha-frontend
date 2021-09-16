@@ -26,9 +26,9 @@ function Dropdown({ selctedIndex, options, onChange }) {
     setIsShown(!isShown)
   }
 
-  function handleSelected(option) {
+  function handleSelected(option, index) {
     setIsShown(false)
-    onChange?.(option)
+    onChange?.(option, index)
   }
 
   return (
@@ -36,11 +36,11 @@ function Dropdown({ selctedIndex, options, onChange }) {
       <span>{options[selctedIndex].label}</span>
       {isShown && (
         <ul className="rank-sort-list">
-          {options.map(option => (
+          {options.map((option, index) => (
             <li
               key={option.value}
               className="rank-sort-item"
-              onClick={() => handleSelected(option)}>
+              onClick={() => handleSelected(option, index)}>
               {option.label}
             </li>
           ))}

@@ -4,6 +4,7 @@
   margin-left: 50px;
   padding: 30px;
   background: #fff;
+  position: relative;
 }
 
 .card-long {
@@ -12,6 +13,7 @@
   margin-left: 50px;
   padding: 30px;
   background: #fff;
+  position: relative;
 }
 
 .card-header {
@@ -23,6 +25,16 @@
 .card-header-title {
   font-weight: 900;
   font-size: 24px;
+}
+
+.card-content.loading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .rank-sort {
@@ -52,7 +64,11 @@
 }
 
 .bar-item {
-  padding: 15px 0;
+  padding: 10px 0;
+}
+
+.bar-name {
+  padding: 4px 0 8px;
 }
 
 .bar-bg-line {

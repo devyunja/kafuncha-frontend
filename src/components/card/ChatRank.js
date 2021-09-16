@@ -5,13 +5,13 @@ import { useGlobalState } from '../../shared/hook'
 
 import { CardHeader, BarRank, Leaderboard } from './shared'
 
+import { Loader } from '../shared'
 import { getDailyRank, getDailyChatCount } from '../../shared/service'
 
-// TODO: temp
 const sortOptions = [
-  { label: '일간', value: 'day' },
-  { label: '주간', value: 'week' },
-  { label: '월간', value: 'month' },
+  { value: 0, label: '하루' },
+  { value: 7, label: '7일' },
+  { value: 30, label: '30일' },
 ]
 
 export function ChatRank() {
@@ -19,63 +19,66 @@ export function ChatRank() {
   const [totalMsgCount, setTotalMsgCount] = useState(0)
   const [date, setDate] = useState(null)
   const [rankers, setRankers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedOptionIdx, setSelectedOptionIdx] = useState(0)
 
-  function handleChangeSortOption(sortOption) {
-    console.log('handleChangeSortOption: ', sortOption)
+  async function initRankers(fileName, selectedOptionIdx) {
+    setIsLoading(true)
+
+    const sortDay = sortOptions[selectedOptionIdx].value
+
+    const { data: dailyRanks, totalCount } = await getDailyRank(
+      fileName,
+      sortDay
+    )
+    console.log('dailyRanks', dailyRanks, totalCount)
+    // if (sortDay === 0 && dailyRanks?.[latestDate]) {
+    //   setTotalMsgCount(count)
+    //   setDate(latestDate)
+    //   setRankers(dailyRanks[latestDate].slice(0, 3))
+    // } else if (sortDay > 0) {
+    //   console.log('dailyRanks', dailyRanks)
+    //   console.log('latestDate', latestDate)
+    // }
+
+    setIsLoading(false)
   }
 
-  async function initRankers(fileName) {
-    // 오늘 날짜 파싱
-    const now = new Date()
-    let today = now.toISOString().split('T')[0]
-
-    // 일별 카운트 호출
-    const dailyCounts = await getDailyChatCount()
-
-    const matchedDailyCount = dailyCounts.find(
-      dailyCount => dailyCount.date === today
-    )
-    const count = matchedDailyCount?.count ?? dailyCounts[0].count
-
-    // 오늘 날짜 카운트가 없으면 첫 번째 날짜 파싱
-    if (!matchedDailyCount) {
-      today = dailyCounts[0].date
-    }
-
-    const dailyRanks = await getDailyRank(fileName)
-
-    if (dailyRanks[today]) {
-      setTotalMsgCount(count)
-      setDate(today)
-      setRankers(dailyRanks[today].slice(0, 3))
-    }
+  function handleChangeSortOption(option, index) {
+    setSelectedOptionIdx(index)
   }
 
   useEffect(() => {
     if (globalState.fileName) {
-      initRankers(globalState.fileName)
+      initRankers(globalState.fileName, selectedOptionIdx)
     }
-  }, [globalState.fileName])
-
-  console.log('JSH: date', date)
+  }, [globalState.fileName, selectedOptionIdx])
 
   return (
     <div className="card-short">
       <CardHeader
         {...{
           title: '채팅 랭킹',
-          selctedIndex: 0,
           sortOptions,
+          selctedIndex: selectedOptionIdx,
           onChangeSort: handleChangeSortOption,
         }}
       />
-      <BarRank {...{ rankers, totalCount: totalMsgCount }} />
-      <Leaderboard
-        {...{
-          rankers,
-          details: [{ key: 'messageCount', postfix: '회' }],
-        }}
-      />
+      <div className={`card-content ${isLoading ? 'loading' : ''}`}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <BarRank {...{ rankers, totalCount: totalMsgCount }} />
+            <Leaderboard
+              {...{
+                rankers,
+                details: [{ key: 'messageCount', postfix: '회' }],
+              }}
+            />
+          </>
+        )}
+      </div>
     </div>
   )
 }

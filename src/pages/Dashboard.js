@@ -37,12 +37,12 @@ export default function Dashboard() {
     <div id="wrapper">
       <Header />
       <div id="content-wrapper">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div id="ranks">
           <ChatRank />
-          <MentionRank />
+          {/* <MentionRank />
           <MutedRank />
-          <KeywordRank />
+          <KeywordRank /> */}
         </div>
       </div>
     </div>
