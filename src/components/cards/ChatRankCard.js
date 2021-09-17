@@ -15,8 +15,10 @@ const Container = styled.div`
 
 export default function ChatRank() {
     const [ chatRanker, setChatRanker ] = useState([]);
+    const [ totalChat, setTotalChat ] = useState([]);
     const [ loading, setLoading ] = useState(true); 
     const [ error, setError ] = useState(null); 
+
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -25,11 +27,14 @@ export default function ChatRank() {
 
 
     useEffect(() => {
-        const fetchChatRanker = async () => {
+        const fetchDatas = async () => {
             try{
-                const { data } = await axios.get('https://programming.coffee/daily-champion-rank/c5111957-2d29-4914-9add-393206723900-1485868656441256377.csv');
-                const item = data.filter(item => item.date === String(today) && item.rank < 4);
-                setChatRanker(item); 
+                const { data : championRank } = await axios.get('https://programming.coffee/daily-champion-rank/c5111957-2d29-4914-9add-393206723900-1485868656441256377.csv');
+                const { data : totalRank } = await axios.get('https://programming.coffee/daily-chat-count/c5111957-2d29-4914-9add-393206723900-1485868656441256377.csv');
+                const dailyChampion = championRank.filter(item => item.date === String(today) && item.rank < 4);
+                const dailyTotalChat = totalRank.filter(item => item.date === String(today));
+                setChatRanker(dailyChampion); 
+                setTotalChat(dailyTotalChat);
             }catch{
                 setError({ error : "Nothing found" })
             }finally{
@@ -37,7 +42,7 @@ export default function ChatRank() {
             }
         };
 
-        fetchChatRanker();
+        fetchDatas();
     },[])
 
     return (
@@ -50,6 +55,7 @@ export default function ChatRank() {
             <>
             <CardGraph
                 chatRanker = {chatRanker}
+                totalChat = {totalChat}
                 error = {error}
             /> 
             <CardLeaderboard

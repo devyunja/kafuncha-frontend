@@ -6,7 +6,6 @@ const Container = styled.div`
 const Item = styled.div``;
 
 export default function CardLeaderboard({chatRanker, error}) {    
-    console.log(chatRanker);
     const rank = chatRanker.map((item,key) => item.rank);
     const name = chatRanker.map((item,key) => item.user);
     const msgCount = chatRanker.map((item,key) => item.messageCount);
