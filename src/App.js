@@ -1,18 +1,10 @@
-import Intro from './pages/Intro';
-import Dashboard from './pages/Dashboard';
-import {BrowserRouter,Route, Switch} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom'
+import Routes from './Routes'
 
-export default function App(){
+export default function App() {
   return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path ="/">
-            <Intro />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-  );
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  )
 }
