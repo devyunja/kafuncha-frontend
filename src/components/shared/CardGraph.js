@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div``;
@@ -20,12 +19,8 @@ const GraphBar = styled.div`
 `;
 
 export default function CardGraph({chatRanker, totalChat, error}) {
-    // const [ graphBarPixel, setGraphBarPixel ] = useState(0);
-
     const name = chatRanker.map((item,key) => item.user);
     const msgCount = chatRanker.map((item,key) => item.messageCount);
-    console.log(totalChat);
-    // const dailyTotalChats = totalChat[0].count;
     
     const first = parseInt((msgCount[0] / totalChat[0].count) * 200);
     const second = parseInt((msgCount[1] / totalChat[0].count) * 200);
