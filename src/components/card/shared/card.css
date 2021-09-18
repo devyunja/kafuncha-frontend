@@ -1,20 +1,25 @@
-.card-short {
+.card {
   width: 270px;
-  height: 370px;
-  margin-left: 50px;
-  padding: 30px;
-  background: #fff;
+  min-height: 380px;
+  background: #e4e6ff;
   position: relative;
+  float: left;
+  margin: 30px 0 0 30px;
+  border-radius: 30px;
 }
 
-.card-long {
+.card-short .ant-card-body {
+  height: 100%;
+}
+
+/* .card-long {
   width: 270px;
   height: 570px;
   margin-left: 50px;
   padding: 30px;
   background: #fff;
   position: relative;
-}
+} */
 
 .card-header {
   height: 50px;
@@ -27,7 +32,12 @@
   font-size: 24px;
 }
 
+.card-content ul:last-child {
+  margin-bottom: 0;
+}
+
 .card-content.loading {
+  display: flex;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -39,24 +49,21 @@
 
 .rank-sort {
   float: right;
-  font-weight: lighter;
+  line-height: 32px;
 }
 
-.rank-sort-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  position: absolute;
+.rank-sort .anticon {
+  margin-left: 4px;
 }
 
 .rank-sort-item {
-  border: 1px solid #666;
+  padding: 4px 16px;
 }
 
 .leaderboard-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 4px 0;
 }
 
 .bar-list {
@@ -64,7 +71,7 @@
 }
 
 .bar-item {
-  padding: 10px 0;
+  padding: 6px 0;
 }
 
 .bar-name {
@@ -83,5 +90,5 @@
   height: 5px;
   border-radius: 2px;
   position: absolute;
-  background: red;
+  background: #c00000;
 }

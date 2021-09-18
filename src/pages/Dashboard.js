@@ -1,4 +1,7 @@
+import 'antd/dist/antd.css'
 import './dashboard.css'
+
+import { Layout } from 'antd'
 
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -6,13 +9,15 @@ import { useGlobalState } from '../shared/hook'
 
 import { PATHS } from '../Routes'
 
-import { Header, Sidebar } from '../components/shared'
+import { Sidebar } from '../components/shared'
 import {
   ChatRank,
   MentionRank,
   MutedRank,
   KeywordRank,
 } from '../components/card'
+
+const { Header, Sider, Content } = Layout
 
 export default function Dashboard() {
   const history = useHistory()
@@ -30,21 +35,24 @@ export default function Dashboard() {
       setGlobalState({ fileName: fileNameFromStorage })
       return
     }
-    // eslint-disable-next-line
   }, [])
 
   return (
-    <div id="wrapper">
-      <Header />
-      <div id="content-wrapper">
-        {/* <Sidebar /> */}
-        <div id="ranks">
+    <Layout>
+      <Header id="header">
+        <span className="title">Kafuncha</span>
+      </Header>
+      <Layout hasSider>
+        <Sider id="sidebar" width={250}>
+          <Sidebar />
+        </Sider>
+        <Content id="ranks">
           <ChatRank />
-          {/* <MentionRank />
+          <MentionRank />
           <MutedRank />
-          <KeywordRank /> */}
-        </div>
-      </div>
-    </div>
+          <KeywordRank />
+        </Content>
+      </Layout>
+    </Layout>
   )
 }

@@ -1,54 +1,56 @@
 import './shared/card.css'
+import cx from 'classnames'
+
+import { Card } from 'antd'
 
 import { useEffect, useState } from 'react'
 import { useGlobalState } from '../../shared/hook'
+import { sortOptions } from '../../shared/const'
 
 import { CardHeader, BarRank, Leaderboard } from './shared'
-
 import { Loader } from '../shared'
-import { getDailyMentionRank } from '../../shared/service'
+
+import { getMentionRank } from '../../shared/service'
 
 export function MentionRank() {
   const [globalState] = useGlobalState()
   const [totalCount, setTotalCount] = useState(0)
   const [rankers, setRankers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedOptionIdx, setSelectedOptionIdx] = useState(0)
 
-  async function initRankers(fileName) {
-    const { data: dailyMentionRanks, latestDate } = await getDailyMentionRank(
-      fileName
-    )
+  async function initRankers(fileName, selectedOptionIdx) {
+    setIsLoading(true)
 
-    const dayRanks = dailyMentionRanks?.[latestDate] ?? []
+    const rewindNumDays = sortOptions[selectedOptionIdx].value
 
-    if (dayRanks) {
-      setTotalCount(() =>
-        dayRanks.reduce((count, dayRank) => count + dayRank.count, 0)
-      )
-      setRankers(
-        dayRanks
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 3)
-          .map((rank, index) => ({ ...rank, rank: index + 1 }))
-      )
-      setIsLoading(false)
-    }
+    const { data: mentionRanks, totalCount } = await getMentionRank(fileName, {
+      rewindNumDays,
+      length: 3,
+    })
+
+    setRankers(mentionRanks)
+    setTotalCount(totalCount)
+    setIsLoading(false)
   }
 
   useEffect(() => {
     if (globalState.fileName) {
-      initRankers(globalState.fileName)
+      initRankers(globalState.fileName, selectedOptionIdx)
     }
-  }, [globalState.fileName])
+  }, [globalState.fileName, selectedOptionIdx])
 
   return (
-    <div className="card-short">
+    <Card className="card card-short">
       <CardHeader
         {...{
           title: '멘션 랭킹',
+          sortOptions,
+          selctedIndex: selectedOptionIdx,
+          onChangeSort: (_option, index) => setSelectedOptionIdx(index),
         }}
       />
-      <div className={`card-content ${isLoading ? 'loading' : ''}`}>
+      <div className={cx('card-content', { loading: isLoading })}>
         {isLoading ? (
           <Loader />
         ) : (
@@ -57,12 +59,12 @@ export function MentionRank() {
             <Leaderboard
               {...{
                 rankers,
-                details: [{ key: 'mentionCount', postfix: '회' }],
+                details: [{ key: 'count', postfix: '회' }],
               }}
             />
           </>
         )}
       </div>
-    </div>
+    </Card>
   )
 }

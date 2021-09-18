@@ -1,4 +1,8 @@
 import './card.css'
+
+import { Menu, Dropdown } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
+
 import { useState } from 'react'
 
 export function CardHeader({
@@ -11,7 +15,7 @@ export function CardHeader({
     <div className="card-header">
       <span className="card-header-title">{title}</span>
       {sortOptions?.length > 0 && (
-        <Dropdown
+        <SortDropdown
           {...{ selctedIndex, options: sortOptions, onChange: onChangeSort }}
         />
       )}
@@ -19,10 +23,11 @@ export function CardHeader({
   )
 }
 
-function Dropdown({ selctedIndex, options, onChange }) {
+export function SortDropdown({ selctedIndex, options, onChange }) {
   const [isShown, setIsShown] = useState(false)
 
-  function toggleDropdown() {
+  function toggleDropdown(e) {
+    e.preventDefault()
     setIsShown(!isShown)
   }
 
@@ -32,20 +37,30 @@ function Dropdown({ selctedIndex, options, onChange }) {
   }
 
   return (
-    <div className="rank-sort" onClick={toggleDropdown}>
-      <span>{options[selctedIndex].label}</span>
-      {isShown && (
-        <ul className="rank-sort-list">
+    <Dropdown
+      className="rank-sort"
+      arrow
+      trigger={['click']}
+      placement="bottomRight"
+      overlay={
+        <Menu
+          className="rank-sort-list"
+          selectable
+          defaultSelectedKeys={options[0].value}>
           {options.map((option, index) => (
-            <li
+            <Menu.Item
               key={option.value}
               className="rank-sort-item"
               onClick={() => handleSelected(option, index)}>
               {option.label}
-            </li>
+            </Menu.Item>
           ))}
-        </ul>
-      )}
-    </div>
+        </Menu>
+      }>
+      <a onClick={toggleDropdown}>
+        {options[selctedIndex].label}
+        <DownOutlined />
+      </a>
+    </Dropdown>
   )
 }

@@ -1,18 +1,8 @@
-import './common.css'
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />
 
 export function Loader() {
-  return (
-    <div className="loader-wrapper">
-      <div className="lds-roller">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-  )
+  return <Spin wrapperClassName="loader-wrapper" indicator={antIcon} />
 }

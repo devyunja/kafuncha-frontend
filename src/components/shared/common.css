@@ -1,30 +1,92 @@
 #header {
-  height: 60px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 80px;
   background: linear-gradient(to right, #2f5bb2, #4481fc);
   text-align: center;
+  z-index: 100;
 }
 
 #header .title {
-  line-height: 60px;
+  line-height: 80px;
   font-size: 40px;
   color: white;
   letter-spacing: 20px;
 }
 
 #sidebar {
-  display: flex;
-  width: 250px;
-  padding-top: 50px;
   background: #4582ff;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-shrink: 0;
+  padding-top: 50px;
+  position: fixed;
+  bottom: 0;
+  top: 80px;
 }
 
 .member-text {
   width: 100%;
-  height: 150px;
-  background: white;
+  height: 128px;
+  background: #e4e6ff;
+  font-size: 16px;
+  padding: 20px;
+  line-height: 16px;
+  font-weight: bold;
+}
+
+.member-text-title {
+  margin: 16px 0 10px 0;
+}
+
+.member-text-num {
+  margin: 24px 0 16px 0;
+}
+
+.member-text-num .num {
+  color: #4582ff;
+}
+
+.chat-counts {
+  text-align: left;
+  padding: 0 20px;
+}
+
+.chat-count-box {
+  margin-bottom: 20px;
+}
+
+.chat-count-box .ant-statistic-title {
+  font-size: 16px;
+  font-weight: normal;
+  color: white;
+}
+
+.chat-count-box .ant-statistic-content {
+  font-size: 16px;
+  color: white;
+}
+
+.chat-count-box .ant-statistic-content-prefix {
+  font-size: 16px;
+}
+
+.chat-count-box .ant-statistic-content-value {
+  margin-left: 2px;
+  letter-spacing: 1px;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.chat-count-box .ant-skeleton-title {
+  height: 30px;
+  margin-top: 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .footer-logo {
