@@ -14,21 +14,6 @@ const Container = styled.div`
     background-color: yellowgreen;
 `;
 
-
-const Header = styled.div`
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    width:100%;
-`;
-
-const Title = styled.span`
-font-size:16px;
-font-weight:900;
-`;
-
-const Select = styled.select``;
-
 export default function ChatRankCard({title}) {
     const [ selectedOption, setSelectedOption ] = useState(optionsValue[0].value);
     const [ chatRanker, setChatRanker ] = useState([]);
@@ -57,9 +42,9 @@ export default function ChatRankCard({title}) {
                 try{
                     const { data : championRank } = await axios.get(`${baseURL}/daily-champion-rank/${filename}`);
                     const { data : totalRank } = await axios.get(`${baseURL}/daily-chat-count/${filename}`);
-                    const dailyChampion = championRank.filter(item => item.date === String(today) && item.rank < 4);
+                    const dailyChampions = championRank.filter(item => item.date === String(today) && item.rank < 4);
                     const dailyTotalChat = totalRank.filter(item => item.date === String(today));
-                    setChatRanker(dailyChampion); 
+                    setChatRanker(dailyChampions); 
                     setTotalChat(dailyTotalChat);
                 }catch{
                     setError({ error : "Nothing found" })
@@ -67,20 +52,60 @@ export default function ChatRankCard({title}) {
                     setLoading(false);
                 }
             }else if(title === "채팅 랭킹" && selectedOption === optionsValue[1].value){
-                // try{
-                //     const {data : championRank} = await axios.get(`${baseURL}/daily-champion-rank/${filename}`, {
-                //         params : {
-                //             rewindNumDays : 1
-                //             }
-                //         }
-                //         .then(res => { console.log(res); return res.date})
-                //     )
-                // }catch{
-                //     setError({ error : "Nothing found" })
-                // }finally{
-                //     setLoading(false);
-                // }
-                console.log("weekly datas");
+                try{
+                    const emptyArray = {};
+                    const {data : championRank} = await axios.get(`${baseURL}/daily-champion-rank/${filename}`, {
+                        params : {
+                            rewindNumDays : 5
+                            }
+                        }
+                    )
+                    const messageCount = championRank.map(el => el.messageCount);
+                    const messageSum = messageCount.reduce((acc, cur) => acc + cur); // 최근 1주 전체 채팅 수                     
+
+                    championRank.forEach(function(x){
+                        if(emptyArray.hasOwnProperty(x.user)){
+                            emptyArray[x.user] += x.messageCount;
+                        }else{
+                            emptyArray[x.user] = x.messageCount;
+                        }
+                    });
+                    console.log(emptyArray); // 각 user의 이름,채팅 횟수
+                    
+                    let rankersChat = [];
+                    const sortChat = Object.values(emptyArray).sort((a,b) => { return b - a}); // 내림차순으로 채팅횟수 정렬
+                    for(let i = 0; i < 3; i++){
+                        rankersChat.push(sortChat[i]); 
+                    }
+                    
+                    const valueFunc = (object, value) => {
+                        return Object.keys(object).find(key => object[key] === value)
+                    }
+                    // valueFunc(emptyArray, rankersChat[0]); 
+                    // valueFunc(emptyArray, rankersChat[1]);
+                    // valueFunc(emptyArray, rankersChat[2]); // key(user)
+                    // rankersChat // value(messageCount)
+                    
+                    // for(let i = 0; i < rankersChat.length; i++){
+                    //     getNameByValue(emptyArray, rankersChat[i])[rankersChat[i]] = rankersChat[i];
+                    // }
+                    // if(Object.values(emptyArray).includes(rankersChat[0])){
+                    //     console.log(Object.values(emptyArray).filter(el => el === rankersChat[0]))
+                    //     console.log(Object.keys(Object.values(emptyArray).filter(el => el === rankersChat[0]))) // value가 rankersChat[0]인 key를 뽑는다.
+                    // }
+                    
+
+                    // const king = Object.values(counts).sort(function(a, b){ return b - a }); // value가 가장 큰 key 값을 뽑아온다.
+                    
+                    // const filtered2 = [...new Set(filtered)];
+                    // const weeklyChampions = championRank.filter()
+                    // 주별 랭킹 1위의 총 채팅 수 (74)/ 일주일 간 전체 채팅 수  (64)
+                    
+                }catch{
+                    setError({ error : "Nothing found" })
+                }finally{
+                    setLoading(false);
+                }
             }else if(title === "채팅 랭킹" && selectedOption === optionsValue[2].value){
                 console.log("monthly datas");
             }
@@ -94,7 +119,7 @@ export default function ChatRankCard({title}) {
         <CardHeader title={title} cardName = {cardName} handleOnChage={handleOnChage}/>
             { loading ? <Loader/> : 
             <>
-            <CardGraph chatRanker = {chatRanker} totalChat = {totalChat} error = {error}/> 
+            {/* <CardGraph chatRanker = {chatRanker} totalChat = {totalChat} error = {error}/>  */}
             <CardLeaderboard chatRanker = {chatRanker} error = {error}/>
             </>
             }
