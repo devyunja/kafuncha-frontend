@@ -14,7 +14,8 @@ const RankMember = prop => {
               <span>{data.user} </span>
               {detail.map(({ key, postFix }) => (
                 <span key={key}>
-                  {data[key]} {postFix}
+                  {data[key]}
+                  {postFix}
                 </span>
               ))}
             </div>
@@ -26,5 +27,3 @@ const RankMember = prop => {
 }
 
 export default RankMember
-
-// 필요한 데이터 : mentionCount, messageCount, lastShowDate
