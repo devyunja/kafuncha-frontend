@@ -4,7 +4,10 @@ import MentionRank from '../components/cards/MentionRank';
 // import KeywordRank from '../cards/KeywordRank';
 import styled from 'styled-components';
 
-const Container = styled.div``;
+const Container = styled.div`
+display:flex;
+gap:20px;
+`;
 
 export default function Dashboard() {
     return (

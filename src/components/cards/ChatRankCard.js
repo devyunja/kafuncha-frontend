@@ -60,8 +60,13 @@ export default function ChatRankCard({title}) {
                             }
                         }
                     )
-                    const messageCount = championRank.map(el => el.messageCount);
+                    const messageCount = championRank.map((el, key)=> el.messageCount);
                     const messageSum = messageCount.reduce((acc, cur) => acc + cur); // 최근 1주 전체 채팅 수                     
+                    const array2 = [];
+                    const obj2 = {};
+                    obj2['count'] = messageSum;
+                    array2.push(obj2);
+                    setTotalChat(array2);
 
                     championRank.forEach(function(x){
                         if(emptyArray.hasOwnProperty(x.user)){
@@ -70,7 +75,6 @@ export default function ChatRankCard({title}) {
                             emptyArray[x.user] = x.messageCount;
                         }
                     });
-                    console.log(emptyArray); // 각 user의 이름,채팅 횟수
                     
                     let rankersChat = [];
                     const sortChat = Object.values(emptyArray).sort((a,b) => { return b - a}); // 내림차순으로 채팅횟수 정렬
@@ -81,11 +85,17 @@ export default function ChatRankCard({title}) {
                     const valueFunc = (object, value) => {
                         return Object.keys(object).find(key => object[key] === value)
                     }
-                    // valueFunc(emptyArray, rankersChat[0]); 
-                    // valueFunc(emptyArray, rankersChat[1]);
-                    // valueFunc(emptyArray, rankersChat[2]); // key(user)
-                    // rankersChat // value(messageCount)
-                    
+        
+                    const array = [];
+
+                    for(let i = 0; i < 3; i++){
+                        let obj = {};
+                        obj['user'] = valueFunc(emptyArray, rankersChat[i]);
+                        obj['messageCount'] = rankersChat[i];
+                        obj['rank'] = i + 1;
+                        array.push(obj);
+                    }
+                    setChatRanker(array);
                     // for(let i = 0; i < rankersChat.length; i++){
                     //     getNameByValue(emptyArray, rankersChat[i])[rankersChat[i]] = rankersChat[i];
                     // }
@@ -107,7 +117,55 @@ export default function ChatRankCard({title}) {
                     setLoading(false);
                 }
             }else if(title === "채팅 랭킹" && selectedOption === optionsValue[2].value){
-                console.log("monthly datas");
+                try{
+                    const emptyArray = {};
+                    const {data : championRank} = await axios.get(`${baseURL}/daily-champion-rank/${filename}`, {
+                        params : {
+                            rewindNumDays : 28
+                            }
+                        }
+                    )
+                    const messageCount = championRank.map((el, key)=> el.messageCount);
+                    const messageSum = messageCount.reduce((acc, cur) => acc + cur); // 최근 1주 전체 채팅 수                     
+                    const array2 = [];
+                    const obj2 = {};
+                    obj2['count'] = messageSum;
+                    array2.push(obj2);
+                    setTotalChat(array2);
+
+                    championRank.forEach(function(x){
+                        if(emptyArray.hasOwnProperty(x.user)){
+                            emptyArray[x.user] += x.messageCount;
+                        }else{
+                            emptyArray[x.user] = x.messageCount;
+                        }
+                    });
+                    
+                    let rankersChat = [];
+                    const sortChat = Object.values(emptyArray).sort((a,b) => { return b - a}); // 내림차순으로 채팅횟수 정렬
+                    for(let i = 0; i < 3; i++){
+                        rankersChat.push(sortChat[i]); 
+                    }
+                    
+                    const valueFunc = (object, value) => {
+                        return Object.keys(object).find(key => object[key] === value)
+                    }
+                    
+                    const array = [];
+
+                    for(let i = 0; i < 3; i++){
+                        let obj = {};
+                        obj['user'] = valueFunc(emptyArray, rankersChat[i]);
+                        obj['messageCount'] = rankersChat[i];
+                        obj['rank'] = i + 1;
+                        array.push(obj);
+                    }
+                    setChatRanker(array);
+                }catch{
+                    setError({ error : "Nothing found" })
+                }finally{
+                    setLoading(false);
+                }
             }
         };
         fetchChatRankingDatas();
@@ -119,14 +177,13 @@ export default function ChatRankCard({title}) {
         <CardHeader title={title} cardName = {cardName} handleOnChage={handleOnChage}/>
             { loading ? <Loader/> : 
             <>
-            {/* <CardGraph chatRanker = {chatRanker} totalChat = {totalChat} error = {error}/>  */}
+            <CardGraph chatRanker = {chatRanker} totalChat = {totalChat} error = {error}/> 
             <CardLeaderboard chatRanker = {chatRanker} error = {error}/>
             </>
             }
         </Container>
     )
 }
-
 
 // return -> handleFunc -> useEffect * 초기에 return 직후 한 번 rendering 된다 그 이후로 electedOption가 변경 될 떄 마다 매번 rendering 시킨다.
 // 이 말은!

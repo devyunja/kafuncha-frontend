@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import Error from '../Error';
 
 const Container = styled.div``;
 
@@ -21,12 +23,11 @@ const GraphBar = styled.div`
 export default function CardGraph({chatRanker, totalChat, error}) {
     const name = chatRanker.map((item,key) => item.user);
     const msgCount = chatRanker.map((item,key) => item.messageCount);
-    
     const first = parseInt((msgCount[0] / totalChat[0].count) * 200);
     const second = parseInt((msgCount[1] / totalChat[0].count) * 200);
     const third = parseInt((msgCount[2] / totalChat[0].count) * 200);
 
-
+    
     return(
         <Container>
             <Column>
@@ -48,6 +49,13 @@ export default function CardGraph({chatRanker, totalChat, error}) {
                     <GraphBar width = {third}></GraphBar>
                 </Graph>
             </Column>
+            {error && <Error errorMsg = { error } color = "#535c68"/>}
         </Container>
     )
+}
+
+CardGraph.prototype = {
+    chatRanker : PropTypes.array.isRequired,
+    totalChat : PropTypes.array.isRequired,
+    error : PropTypes.string,
 }
