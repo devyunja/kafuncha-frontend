@@ -1,9 +1,6 @@
 import React from 'react'
 
-const RankMember = prop => {
-  let rankData = prop.data
-  let detail = prop.detail
-
+const RankMember = ({ rankData, detail }) => {
   return (
     <div>
       <ul>
