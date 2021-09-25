@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 export default function MentionRankCard() {
   const today = new Date()
+  const todayString = dateTimestampToString(today)
   let daily = []
 
   useEffect(() => {
@@ -17,6 +18,7 @@ export default function MentionRankCard() {
         // const weekAgoString = weekAgo()
         console.log(data_1)
         const weekAgoString = '2021-09-01'
+        const todayTimestamp = dateStringToTimestamp(todayString)
         const firstEle = data_1[0]
 
         data_1.some(ele => {
@@ -31,7 +33,6 @@ export default function MentionRankCard() {
           } else {
             daily.push(ele)
           }
-          return daily
         })
         return daily
       })
