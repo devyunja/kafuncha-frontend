@@ -1,6 +1,5 @@
 import { useState } from "react"
 import styles from "./rowGraph.module.css"
-import { v4 } from 'uuid'
 
 const RowGraph = ({wholeCount,data}) => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -14,8 +13,7 @@ const RowGraph = ({wholeCount,data}) => {
     <>
       {
         data?.map((elem,index) =>
-          <div key={v4()} data-index={index} onClick={activeClick}>
-            {console.log('index',index)}
+          <div key={elem.user} data-index={index} onClick={activeClick}>
             <strong
               className={activeIndex === index ? styles.activeUser : styles.user}>
               {elem.user}
