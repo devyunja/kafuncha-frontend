@@ -1,0 +1,17 @@
+.pieChart__container {
+  width: 150px;
+  height: 150px;
+}
+
+.pieChart__info {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 12px;
+  font-size: 10px;
+  font-weight: 550;
+}
+
+.pieChart__info--box {
+  width: 10px;
+  height: 10px;
+}
