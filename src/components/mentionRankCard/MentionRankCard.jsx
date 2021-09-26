@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 
 export default function MentionRankCard() {
   const today = new Date()
-  const todayString = dateTimestampToString(today)
+
   let daily = []
+  let weekly = []
 
   useEffect(() => {
     fetch(
@@ -15,11 +16,19 @@ export default function MentionRankCard() {
         }
       })
       .then(data_1 => {
-        // const weekAgoString = weekAgo()
         console.log(data_1)
-        const weekAgoString = '2021-09-01'
+
+        const weekAgoString = weekAgo()
+        const todayString = dateTimestampToString(today)
         const todayTimestamp = dateStringToTimestamp(todayString)
+
         const firstEle = data_1[0]
+
+        data_1.map(ele => {
+          if (ele.date === todayString) {
+            daily.push(ele)
+          }
+        })
 
         data_1.some(ele => {
           if (
@@ -31,13 +40,49 @@ export default function MentionRankCard() {
           } else if (ele.date === weekAgoString) {
             return true
           } else {
-            daily.push(ele)
+            weekly.push(ele)
           }
         })
-        return daily
+        console.log('daily', daily)
+        console.log('weekly', weekly)
+        // console.log('daily', daily)
+
+        return daily, weekly
       })
       .then(data_2 => {
-        console.log('data this', data_2)
+        const data = data_2.reduce(
+          (acc, curr) => {
+            if (acc.user === curr.user) {
+              acc.count += curr.mentionCount
+            } else if (acc.user !== curr.user) {
+              const idx = acc.findIndex(ele => ele.user === curr.user)
+              if (idx >= 0) {
+                acc[idx].count += curr.mentionCount
+              } else if (idx === -1) {
+                acc.push({ user: curr.user, count: curr.mentionCount })
+              }
+            }
+            return acc
+          },
+          [{ user: '', count: 0 }]
+        )
+        const result = data.slice(1)
+
+        return result
+      })
+      .then(data_3 => {
+        data_3.sort((a, b) => {
+          if (a.count < b.count) {
+            return 1
+          }
+          if (a.count > b.count) {
+            return -1
+          }
+          if (a.count === b.count) {
+            return 0
+          }
+        })
+        console.log('결과', data_3)
       })
   }, [])
 
