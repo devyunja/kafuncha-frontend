@@ -1,10 +1,26 @@
 import { useEffect } from 'react'
 
+// 오늘 2021-09-26
+// 일주일치 뽑아
+
+// const arr = [
+//   { date: '', user: '방구석코딩', mentionCount: 1 },
+//   { date: '2021-09-08', user: '방구석코딩', mentionCount: 1 },
+//   { date: '2021-09-07', user: '방구석코딩', mentionCount: 1 },
+//   { date: '2021-09-06', user: '방구석코딩', mentionCount: 1 },
+//   { date: '2021-09-05', user: '방구석코딩', mentionCount: 1 },
+//   { date: '2021-09-04', user: '방구석코딩', mentionCount: 1 },
+//   { date: '2021-09-03', user: '방구석코딩', mentionCount: 1 },
+// ]
+// const arr2 = [{ user: 'xxx', count: 0, rank: 1 }]
+// const totalCount = 0
+
 export default function MentionRankCard() {
   const today = new Date()
 
-  let daily = []
-  let weekly = []
+  // let daily = []
+  // let weekly = []
+  // let monthly = []
 
   useEffect(() => {
     fetch(
@@ -16,76 +32,25 @@ export default function MentionRankCard() {
         }
       })
       .then(data_1 => {
-        console.log(data_1)
-
-        const weekAgoString = weekAgo()
-        const todayString = dateTimestampToString(today)
-        const todayTimestamp = dateStringToTimestamp(todayString)
-
-        const firstEle = data_1[0]
-
-        data_1.map(ele => {
-          if (ele.date === todayString) {
-            daily.push(ele)
-          }
-        })
-
-        data_1.some(ele => {
-          if (
-            dateStringToTimestamp(firstEle.date) <
-            dateStringToTimestamp(weekAgoString)
-          ) {
-            console.log('No data')
-            return true
-          } else if (ele.date === weekAgoString) {
-            return true
-          } else {
-            weekly.push(ele)
-          }
-        })
-        console.log('daily', daily)
-        console.log('weekly', weekly)
-        // console.log('daily', daily)
-
-        return daily, weekly
-      })
-      .then(data_2 => {
-        const data = data_2.reduce(
-          (acc, curr) => {
-            if (acc.user === curr.user) {
-              acc.count += curr.mentionCount
-            } else if (acc.user !== curr.user) {
-              const idx = acc.findIndex(ele => ele.user === curr.user)
-              if (idx >= 0) {
-                acc[idx].count += curr.mentionCount
-              } else if (idx === -1) {
-                acc.push({ user: curr.user, count: curr.mentionCount })
-              }
-            }
-            return acc
-          },
-          [{ user: '', count: 0 }]
-        )
-        const result = data.slice(1)
-
-        return result
-      })
-      .then(data_3 => {
-        data_3.sort((a, b) => {
-          if (a.count < b.count) {
-            return 1
-          }
-          if (a.count > b.count) {
-            return -1
-          }
-          if (a.count === b.count) {
-            return 0
-          }
-        })
-        console.log('결과', data_3)
+        getData(data_1, 40)
       })
   }, [])
+  function getData(data, days) {
+    const rewindDaysTsp = today.getTime() - (days - 1) * 24 * 60 * 60 * 1000
+    console.log('rewindDay', dateTimestampToString(rewindDaysTsp))
+    const todayString = dateTimestampToString(today)
+    const dateKey =
+      data[0].date === todayString
+        ? dateTimestampToString(rewindDaysTsp) // 40일 전 날짜 스트링, 8/18
+        : data[0].date // data 최상단 요소의 날짜 스트링, 9/9
+    console.log('real dateKey', dateKey)
+    console.log('data', data)
 
+    const newData = data.filter(ele => ele.date <= dateKey)
+
+    console.log(newData)
+    return newData
+  }
   function dateStringToTimestamp(str) {
     var y = str.substr(0, 4)
     var m = str.substr(5, 2)
@@ -105,11 +70,17 @@ export default function MentionRankCard() {
     return resultDate
   }
 
-  function weekAgo() {
-    const weekAgoTimestamp = today.getTime() - 6 * 24 * 60 * 60 * 1000
-    const weekAgoString = dateTimestampToString(weekAgoTimestamp)
-    return weekAgoString
-  }
+  // function weekAgo() {
+  //   const weekAgoTimestamp = today.getTime() - 6 * 24 * 60 * 60 * 1000
+  //   const weekAgoString = dateTimestampToString(weekAgoTimestamp)
+  //   return weekAgoString
+  // }
+
+  // function monthAgo() {
+  //   const monthAgoTimestamp = today.getTime() - 29 * 24 * 60 * 60 * 1000
+  //   const monthAgoString = dateTimestampToString(monthAgoTimestamp)
+  //   return monthAgoString
+  // }
   return (
     <>
       {/* <RankMember
