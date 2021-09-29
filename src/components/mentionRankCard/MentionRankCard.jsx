@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import RankMember from '../rankMember/RankMember'
 
 // 오늘 2021-09-26
 // 일주일치 뽑아
@@ -16,11 +17,11 @@ import { useEffect } from 'react'
 // const totalCount = 0
 
 export default function MentionRankCard() {
-  const today = new Date()
+  const [daily, setDaily] = useState([])
+  const [weekly, setWeekly] = useState([])
+  const [monthly, setMonthly] = useState([])
 
-  // let daily = []
-  // let weekly = []
-  // let monthly = []
+  const today = new Date()
 
   useEffect(() => {
     fetch(
@@ -32,24 +33,59 @@ export default function MentionRankCard() {
         }
       })
       .then(data_1 => {
-        getData(data_1, 40)
+        setDaily(getData(data_1, 1))
+        setWeekly(getData(data_1, 7))
+        setMonthly(getData(data_1, 30))
+        return
       })
   }, [])
+  console.log('daily', daily)
+  console.log('weekly', weekly)
+  console.log('monthly', monthly)
   function getData(data, days) {
     const rewindDaysTsp = today.getTime() - (days - 1) * 24 * 60 * 60 * 1000
-    console.log('rewindDay', dateTimestampToString(rewindDaysTsp))
+
     const todayString = dateTimestampToString(today)
     const dateKey =
       data[0].date === todayString
         ? dateTimestampToString(rewindDaysTsp) // 40일 전 날짜 스트링, 8/18
         : data[0].date // data 최상단 요소의 날짜 스트링, 9/9
-    console.log('real dateKey', dateKey)
-    console.log('data', data)
+    const datekeyTsp = dateStringToTimestamp(dateKey) - 0
+    const from = datekeyTsp - (days - 1) * 24 * 60 * 60 * 1000
+    const newData = data.filter(ele => dateStringToTimestamp(ele.date) >= from)
+    // 데이터 날짜가 9/9로부터 -7일까지 나오도록
+    // 9.3 =< ele.data =< 9.9
+    const reducedData = newData.reduce(
+      (acc, curr) => {
+        if (acc.user === curr.user) {
+          acc.count += curr.mentionCount
+        } else if (acc.user !== curr.user) {
+          const idx = acc.findIndex(ele => ele.user === curr.user)
+          if (idx >= 0) {
+            acc[idx].count += curr.mentionCount
+          } else if (idx === -1) {
+            acc.push({ user: curr.user, count: curr.mentionCount })
+          }
+        }
+        return acc
+      },
+      [{ user: '', count: 0 }]
+    )
+    const slicedData = reducedData.slice(1)
 
-    const newData = data.filter(ele => ele.date <= dateKey)
+    const sortedData = slicedData.sort((a, b) => {
+      if (a.count < b.count) {
+        return 1
+      }
+      if (a.count > b.count) {
+        return -1
+      }
+      if (a.count === b.count) {
+        return 0
+      }
+    })
 
-    console.log(newData)
-    return newData
+    return sortedData
   }
   function dateStringToTimestamp(str) {
     var y = str.substr(0, 4)
@@ -70,23 +106,12 @@ export default function MentionRankCard() {
     return resultDate
   }
 
-  // function weekAgo() {
-  //   const weekAgoTimestamp = today.getTime() - 6 * 24 * 60 * 60 * 1000
-  //   const weekAgoString = dateTimestampToString(weekAgoTimestamp)
-  //   return weekAgoString
-  // }
-
-  // function monthAgo() {
-  //   const monthAgoTimestamp = today.getTime() - 29 * 24 * 60 * 60 * 1000
-  //   const monthAgoString = dateTimestampToString(monthAgoTimestamp)
-  //   return monthAgoString
-  // }
   return (
     <>
-      {/* <RankMember
-        data={data}
-        detail={[{ key: 'messageCount', postFix: '회' }]}
-      /> */}
+      <RankMember
+        rankData={weekly !== [] && weekly}
+        detail={[{ key: 'mentionCount', postFix: '회' }]}
+      />
     </>
   )
 }
