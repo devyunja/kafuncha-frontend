@@ -22,6 +22,9 @@ export default function MentionRankCard() {
         setWeekly(getData(data_1, 7))
         setMonthly(getData(data_1, 30))
         // data 없을 때 처리
+        console.log('daily', daily)
+        console.log('weekly', weekly)
+        console.log('monthly', monthly)
 
         return
       })
@@ -33,10 +36,7 @@ export default function MentionRankCard() {
 
   function getData(data, days) {
     const sumData = sumCount(getDataRewinded(data, days))
-    const sortedData = sortData(sumData)
-
-    console.log('sortedData', sortedData)
-    // return addRank(sortedData)
+    return sortData(sumData)
   }
 
   function getDataRewinded(data, days) {
@@ -64,10 +64,21 @@ export default function MentionRankCard() {
   }
 
   function sortData(data) {
-    return Object.entries(data)
+    let rankNum
+    const aa = Object.entries(data)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 7)
-      .map((ele, idx) => ({ user: ele[0], count: ele[1], rank: idx + 1 }))
+      .map((ele, idx, arr) => {
+        rankNum = idx === 0 ? 1 : arr[idx - 1][1] === ele[1] ? rankNum : idx + 1
+
+        return {
+          user: ele[0],
+          count: ele[1],
+          rank: rankNum,
+        }
+      })
+    console.log('dsfsdf', aa)
+    return aa
   }
 
   function dateStringToTimestamp(str) {
