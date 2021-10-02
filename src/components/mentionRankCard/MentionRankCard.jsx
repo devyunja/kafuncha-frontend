@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import RankMember from '../rankMember/RankMember'
+import RowGraph from '../cards/rowGraph/RowGraph'
 
 export default function MentionRankCard() {
   const [daily, setDaily] = useState([])
   const [weekly, setWeekly] = useState([])
   const [monthly, setMonthly] = useState([])
-
+  const [loaded, setLoaded] = useState(false)
+  const totalCount = 17
   const today = new Date()
 
   useEffect(() => {
@@ -21,18 +23,12 @@ export default function MentionRankCard() {
         setDaily(getData(data_1, 1))
         setWeekly(getData(data_1, 7))
         setMonthly(getData(data_1, 30))
-        // data 없을 때 처리
-        console.log('daily', daily)
-        console.log('weekly', weekly)
-        console.log('monthly', monthly)
+        setLoaded(true)
 
         return
       })
   }, [])
-
-  console.log('daily', daily)
-  console.log('weekly', weekly)
-  console.log('monthly', monthly)
+  console.log('daily', daily, 'weekly', weekly, 'monthly', monthly)
 
   function getData(data, days) {
     const sumData = sumCount(getDataRewinded(data, days))
@@ -65,20 +61,18 @@ export default function MentionRankCard() {
 
   function sortData(data) {
     let rankNum
-    const aa = Object.entries(data)
+    return Object.entries(data)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 7)
+      .slice(0, 3)
       .map((ele, idx, arr) => {
         rankNum = idx === 0 ? 1 : arr[idx - 1][1] === ele[1] ? rankNum : idx + 1
 
         return {
           user: ele[0],
-          count: ele[1],
+          mentionCount: ele[1],
           rank: rankNum,
         }
       })
-    console.log('dsfsdf', aa)
-    return aa
   }
 
   function dateStringToTimestamp(str) {
@@ -102,10 +96,21 @@ export default function MentionRankCard() {
 
   return (
     <>
-      {/* <RankMember
-        rankData={weekly !== [] && weekly}
-        detail={[{ key: 'count', postFix: '회' }]}
-      /> */}
+      <div style={{ width: '200px' }}>
+        <RowGraph wholeCount={totalCount} data={weekly} />
+      </div>
+      {weekly !== [] ? (
+        loaded === true ? (
+          <RankMember
+            rankData={weekly}
+            detail={[{ key: 'mentionCount', postFix: '회' }]}
+          />
+        ) : (
+          <div>로드 중</div>
+        )
+      ) : (
+        <div>데이터가 없습니다.</div>
+      )}
     </>
   )
 }
