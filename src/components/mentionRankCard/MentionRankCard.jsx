@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import RankMember from '../rankMember/RankMember'
 import RowGraph from '../cards/rowGraph/RowGraph'
+import styles from './mentionRankCard.module.css'
 
 export default function MentionRankCard() {
   const [daily, setDaily] = useState([])
@@ -28,7 +29,6 @@ export default function MentionRankCard() {
         return
       })
   }, [])
-  console.log('daily', daily, 'weekly', weekly, 'monthly', monthly)
 
   function getData(data, days) {
     const sumData = sumCount(getDataRewinded(data, days))
@@ -95,7 +95,7 @@ export default function MentionRankCard() {
   }
 
   return (
-    <>
+    <div className={styles.co}>
       <div style={{ width: '200px' }}>
         <RowGraph wholeCount={totalCount} data={weekly} />
       </div>
@@ -111,6 +111,6 @@ export default function MentionRankCard() {
       ) : (
         <div>데이터가 없습니다.</div>
       )}
-    </>
+    </div>
   )
 }
