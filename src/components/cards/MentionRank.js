@@ -45,12 +45,11 @@ export default function ChatRank({ title }) {
     const currentValue = e.target.value;
     setSelectedOption(currentValue);
   }
-
+  //params 따로
   useEffect(() => {
-    const fetchChatRankingDatas = async () => {
+    const fetchMentionRankingData = async () => {
       if (title === "멘션 랭킹" && selectedOption === optionsValue[0].value) {
         try {
-          console.log(mentionRanker);
           const { data: championRank } = await axios.get(
             "https://programming.coffee/mention/c5111957-2d29-4914-9add-393206723900-1485868656441256377.csv"
           );
@@ -61,9 +60,9 @@ export default function ChatRank({ title }) {
             ...el,
             rank: index + 1,
           }));
-          console.log(addRankerProperty);
-          setMentionRanker(addRankerProperty);
-          // state 값 업데이트가 안되는 상황.. props 로 값이 안 넘어 간다.
+          setMentionRanker(addRankerProperty); // 비동기로 작동함
+          console.log("mentionRanker in Fetch", mentionRanker);
+          // setting 하는 동안 찍
         } catch {
           setError({ error: "Nothing found" });
         } finally {
@@ -81,10 +80,9 @@ export default function ChatRank({ title }) {
         console.log("monthly datas");
       }
     };
-    fetchChatRankingDatas();
+    fetchMentionRankingData();
   }, [selectedOption]);
-
-  console.log(mentionRanker);
+  console.log("mentionRanker ouside", mentionRanker);
 
   return (
     <Container>
