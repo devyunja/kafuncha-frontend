@@ -95,8 +95,8 @@ export default function MentionRankCard() {
   }
 
   return (
-    <div className={styles.co}>
-      <div style={{ width: '200px' }}>
+    <div>
+      <div className={styles.graphPar}>
         <RowGraph wholeCount={totalCount} data={weekly} />
       </div>
       {weekly !== [] ? (

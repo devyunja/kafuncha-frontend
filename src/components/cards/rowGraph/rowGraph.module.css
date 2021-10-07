@@ -1,4 +1,4 @@
-.wholeBar{
+.wholeBar {
   width: 100%;
   background-color: #ddd;
   height: 0.6rem;
@@ -7,24 +7,26 @@
   position: relative;
 }
 
-.bar{
-  height:0.6rem;
+.bar {
+  height: 0.6rem;
   border-radius: 5px;
-  background-color:rgb(36, 104, 231);
+  background-color: rgb(36, 104, 231);
 }
 
-.activeBar{
-  height:0.6rem;
+.activeBar {
+  height: 0.6rem;
   border-radius: 5px;
-  background-color:rgb(250, 231, 57);
+  background-color: rgb(250, 231, 57);
 }
 
-.user{
-  font-size: 1.25rem;
-  color:#999;
+.user {
+  font-size: 1rem;
+  color: #999;
+  font-weight: bolder;
 }
 
-.activeUser{
-  font-size: 1.25rem;
-  color:#333;
+.activeUser {
+  font-size: 1rem;
+  color: #333;
+  font-weight: bolder;
 }

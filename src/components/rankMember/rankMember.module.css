@@ -1,0 +1,31 @@
+.wrap {
+  width: 16%;
+}
+.rankerWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.rank {
+  color: #3c7bc7;
+  font-weight: bolder;
+  margin-right: 35px;
+}
+.rankUser {
+  margin-right: auto;
+  color: #333;
+  font-weight: bolder;
+}
+.rankCount {
+  color: red;
+}
+.rankNum:nth-child(2) .rank {
+  color: #3c7bc7;
+  font-weight: bolder;
+  opacity: 0.8;
+}
+.rankNum:nth-child(3) .rank {
+  color: #3c7bc7;
+  font-weight: bolder;
+  opacity: 0.5;
+}
