@@ -1,39 +1,44 @@
 import { useState } from "react";
-import { optionsValue } from "../../Const";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Container = styled.div``;
+const Container = styled.div`
+  background-color: #4a69bd;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  padding: 10px;
 `;
 
 const Title = styled.span`
-  font-size: 20px;
-  font-weight: 900;
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 const Select = styled.select`
-  width: 70px;
-  height: 25px;
+  width: 60px;
+  height: 20px;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
 `;
 
-const Options = styled.option`
-  appearance: none;
-  border-bottom: 1px dashed rgb(170, 72, 72);
-  background-color: red;
-  padding: 5px 15px 5px;
-`;
-
 export default function CardHeader({ title }) {
-  // globalState로 관리하면 좋을 듯
+  const optionsValue = [
+    { label: "일 별", value: "daily", color: "#00B8D9", id: 1 },
+    { label: "주 별", value: "weekly", color: "#00875A", id: 2 },
+    { label: "월 별", value: "monthly", color: "#FF8B00", id: 3 },
+  ];
+
+  // selectedOption은 globalState로 관리해서 데이터 받아오는 곳에서 props로 사용하면 좋을 것 같습니다.
   const [selectedOption, setSelectedOption] = useState([optionsValue[0].value]);
 
   function handleOnChage(e) {
@@ -47,9 +52,9 @@ export default function CardHeader({ title }) {
         <Title>{title}</Title>
         <Select onChange={handleOnChage}>
           {optionsValue.map((option, key) => (
-            <Options value={option.value} key={option.id}>
+            <option value={option.value} key={option.id}>
               {option.label}
-            </Options>
+            </option>
           ))}
         </Select>
       </Header>
