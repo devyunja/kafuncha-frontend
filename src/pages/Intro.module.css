@@ -37,7 +37,6 @@
   display: block;
   clear: both;
   content: '';
-  /* background-color: #cadaee; */
   border: solid #cadaee 0.5rem;
   border-radius: 1em;
   z-index: -1;
