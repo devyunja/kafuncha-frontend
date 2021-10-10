@@ -1,5 +1,5 @@
 .wrap {
-  width: 16%;
+  width: 20%;
 }
 .rankerWrap {
   display: flex;
@@ -9,7 +9,7 @@
 .rank {
   color: #3c7bc7;
   font-weight: bolder;
-  margin-right: 35px;
+  margin-right: 45px;
 }
 .rankUser {
   margin-right: auto;

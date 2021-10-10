@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { Const } from "./Const";
 
 const Container = styled.div`
   background-color: #4a69bd;
@@ -33,9 +34,9 @@ const Select = styled.select`
 
 export default function CardHeader({ title }) {
   const optionsValue = [
-    { label: "일 별", value: "daily", color: "#00B8D9", id: 1 },
-    { label: "주 별", value: "weekly", color: "#00875A", id: 2 },
-    { label: "월 별", value: "monthly", color: "#FF8B00", id: 3 },
+    { label: "일간", value: Const.daily, color: "#00B8D9", id: 1 },
+    { label: "주간", value: Const.weekly, color: "#00875A", id: 2 },
+    { label: "월간", value: Const.monthly, color: "#FF8B00", id: 3 },
   ];
 
   // selectedOption은 globalState로 관리해서 데이터 받아오는 곳에서 props로 사용하면 좋을 것 같습니다.

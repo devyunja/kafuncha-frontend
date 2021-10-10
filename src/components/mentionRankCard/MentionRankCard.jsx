@@ -2,8 +2,15 @@ import { useEffect, useState } from 'react'
 import RankMember from '../rankMember/RankMember'
 import RowGraph from '../cards/rowGraph/RowGraph'
 import styles from './mentionRankCard.module.css'
+import CardHeader from '../shared/CardHeader'
+import styled from 'styled-components'
+import { Const } from '../shared/Const'
+
+
 
 export default function MentionRankCard() {
+  console.log('Const.weekly', Const.weekly)
+  console.log('CardHeaer.weekly',CardHeader.selectedOption)
   const [daily, setDaily] = useState([])
   const [weekly, setWeekly] = useState([])
   const [monthly, setMonthly] = useState([])
@@ -96,6 +103,8 @@ export default function MentionRankCard() {
 
   return (
     <div>
+      <CardHeader />
+
       <div className={styles.graphPar}>
         <RowGraph wholeCount={totalCount} data={weekly} />
       </div>
