@@ -1,23 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, createContext, useContext } from 'react'
 import RankMember from '../rankMember/RankMember'
 import RowGraph from '../cards/rowGraph/RowGraph'
 import styles from './mentionRankCard.module.css'
 import CardHeader from '../shared/CardHeader'
-import styled from 'styled-components'
-import { Const } from '../shared/Const'
 
-
-
+export const Selected = createContext({
+  daily: '일별',
+  weekly: '주별',
+  monthly: '월별',
+})
 export default function MentionRankCard() {
-  console.log('Const.weekly', Const.weekly)
-  console.log('CardHeaer.weekly',CardHeader.selectedOption)
+  const context = useContext(Selected)
+  console.log('집중', context)
+
   const [daily, setDaily] = useState([])
   const [weekly, setWeekly] = useState([])
   const [monthly, setMonthly] = useState([])
   const [loaded, setLoaded] = useState(false)
   const totalCount = 17
   const today = new Date()
-
   useEffect(() => {
     fetch(
       'https://programming.coffee/mention/c5111957-2d29-4914-9add-393206723900-1485868656441256377.csv'
@@ -103,23 +104,25 @@ export default function MentionRankCard() {
 
   return (
     <div>
-      <CardHeader />
+      <Selected.Provider value={context}>
+        <CardHeader />
 
-      <div className={styles.graphPar}>
-        <RowGraph wholeCount={totalCount} data={weekly} />
-      </div>
-      {weekly !== [] ? (
-        loaded === true ? (
-          <RankMember
-            rankData={weekly}
-            detail={[{ key: 'mentionCount', postFix: '회' }]}
-          />
+        <div className={styles.graphPar}>
+          <RowGraph wholeCount={totalCount} data={weekly} />
+        </div>
+        {weekly !== [] ? (
+          loaded === true ? (
+            <RankMember
+              rankData={weekly}
+              detail={[{ key: 'mentionCount', postFix: '회' }]}
+            />
+          ) : (
+            <div>로드 중</div>
+          )
         ) : (
-          <div>로드 중</div>
-        )
-      ) : (
-        <div>데이터가 없습니다.</div>
-      )}
+          <div>데이터가 없습니다.</div>
+        )}
+      </Selected.Provider>
     </div>
   )
 }
