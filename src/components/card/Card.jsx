@@ -13,8 +13,7 @@ const Card = ({ data }) => {
     키워드: 7,
   }
 
-  if (['채팅', '멘션'].includes(data.type) && data.data.length > 3)
-    data.data = data.data.slice(0, sliceEnum[data.type])
+  if (data.data.length > 3) data.data = data.data.slice(0, sliceEnum[data.type])
 
   return (
     <div className={styles.card}>
@@ -25,7 +24,7 @@ const Card = ({ data }) => {
       {['키워드'].includes(data.type) && (
         <PieChart wholeCount={data.wholeCount} data={data.data} />
       )}
-      <RankMember rankData={data.data} detail="" />
+      <RankMember rankData={data.data} detail={data.type} />
     </div>
   )
 }

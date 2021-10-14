@@ -4,8 +4,8 @@ import styles from './RankMember.module.css'
 
 const RankMember = ({ rankData, detail }) => {
   const postFixEnum = {
-    chat: '회',
-    menstion: '회',
+    채팅: '회',
+    멘션: '회',
   }
   if (rankData.length === 0) return null
 
