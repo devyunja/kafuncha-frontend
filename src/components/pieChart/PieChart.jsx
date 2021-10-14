@@ -1,17 +1,22 @@
 import styles from './PieChart.module.css'
 
-const PieChart = ({ keyWordRank, totalCount }) => {
+const PieChart = ({ data, wholeCount }) => {
   const pieColour = ['#D92414', '#F279A6', '#3279A6', '#808080']
   let current_deg = -90
 
+  if (data.length === 0) return null
+
   return (
     <div className={styles.pieChart__container}>
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
-        {keyWordRank.map((el, idx) => {
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1">
+        {data?.map((el, idx) => {
           const r = 25
-          const ratio = (el.count / totalCount) * 100
+          const ratio = (el.count / wholeCount) * 100
           const rotate = `rotate(${current_deg})`
-          current_deg += 360 * (el.count / totalCount)
+          current_deg += 360 * (el.count / wholeCount)
 
           return (
             <circle
@@ -21,7 +26,9 @@ const PieChart = ({ keyWordRank, totalCount }) => {
               fill="transparent"
               stroke={pieColour[idx]}
               strokeWidth="50"
-              strokeDasharray={`calc(${ratio} * ${2 * Math.PI * r} / 100) ${2 * Math.PI * r}`}
+              strokeDasharray={`calc(${ratio} * ${2 * Math.PI * r} / 100) ${
+                2 * Math.PI * r
+              }`}
               transform-origin="50 50"
               transform={rotate}
               key={idx}
@@ -30,7 +37,7 @@ const PieChart = ({ keyWordRank, totalCount }) => {
         })}
       </svg>
       <div className={styles.pieChart__info}>
-        {keyWordRank.map((el, idx) => (
+        {data?.map((el, idx) => (
           <>
             <div
               className={styles['pieChart__info--box']}

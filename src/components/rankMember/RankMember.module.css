@@ -1,0 +1,13 @@
+.rankMember {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.rankMember__rank {
+  color: #2c6fbe;
+}
+
+.rankMember__info {
+  color: #808080;
+}
