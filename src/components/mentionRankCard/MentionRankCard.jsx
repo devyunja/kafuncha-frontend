@@ -1,24 +1,30 @@
-import { useEffect, useState, createContext, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import RankMember from '../rankMember/RankMember'
 import RowGraph from '../cards/rowGraph/RowGraph'
 import styles from './mentionRankCard.module.css'
 import CardHeader from '../shared/CardHeader'
+import { SORT_TYPE } from '../../common/const'
 
-export const Selected = createContext({
-  daily: '일별',
-  weekly: '주별',
-  monthly: '월별',
-})
 export default function MentionRankCard() {
-  const context = useContext(Selected)
-  console.log('집중', context)
-
-  const [daily, setDaily] = useState([])
-  const [weekly, setWeekly] = useState([])
-  const [monthly, setMonthly] = useState([])
   const [loaded, setLoaded] = useState(false)
-  const totalCount = 17
   const today = new Date()
+  const [mentionData, setMentionData] = useState({
+    [SORT_TYPE.DAILY]: [],
+    [SORT_TYPE.WEEKLY]: [],
+    [SORT_TYPE.MONTHLY]: [],
+  })
+  const [sortType, setSortType] = useState(SORT_TYPE.DAILY)
+  const totalCountObj = mentionData[sortType].reduce((acc, curr) => {
+    if (!acc.totalCount) {
+      acc.totalCount = curr.mentionCount
+    } else {
+      acc.totalCount += curr.mentionCount
+    }
+    return acc
+  }, {})
+  const totalCount = totalCountObj.totalCount
+  console.log('ddddd', totalCount)
+
   useEffect(() => {
     fetch(
       'https://programming.coffee/mention/c5111957-2d29-4914-9add-393206723900-1485868656441256377.csv'
@@ -29,9 +35,12 @@ export default function MentionRankCard() {
         }
       })
       .then(data_1 => {
-        setDaily(getData(data_1, 1))
-        setWeekly(getData(data_1, 7))
-        setMonthly(getData(data_1, 30))
+        setMentionData({
+          [SORT_TYPE.DAILY]: getData(data_1, 1),
+          [SORT_TYPE.WEEKLY]: getData(data_1, 7),
+          [SORT_TYPE.MONTHLY]: getData(data_1, 30),
+        })
+
         setLoaded(true)
 
         return
@@ -104,25 +113,24 @@ export default function MentionRankCard() {
 
   return (
     <div>
-      <Selected.Provider value={context}>
-        <CardHeader />
+      <CardHeader
+        onChange={val => {
+          setSortType(val)
+        }}
+        title={'멘션 랭킹'}
+      />
 
-        <div className={styles.graphPar}>
-          <RowGraph wholeCount={totalCount} data={weekly} />
-        </div>
-        {weekly !== [] ? (
-          loaded === true ? (
-            <RankMember
-              rankData={weekly}
-              detail={[{ key: 'mentionCount', postFix: '회' }]}
-            />
-          ) : (
-            <div>로드 중</div>
-          )
-        ) : (
-          <div>데이터가 없습니다.</div>
-        )}
-      </Selected.Provider>
+      <div className={styles.graphPar}>
+        <RowGraph wholeCount={totalCount} data={mentionData[sortType]} />
+      </div>
+      {loaded === true ? (
+        <RankMember
+          rankData={mentionData[sortType]}
+          detail={[{ key: 'mentionCount', postFix: '회' }]}
+        />
+      ) : (
+        <div>로드 중</div>
+      )}
     </div>
   )
 }

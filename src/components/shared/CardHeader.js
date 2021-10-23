@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Selected } from '../mentionRankCard/MentionRankCard'
+import { SORT_TYPE } from '../../common/const'
 
 const Container = styled.div`
   background-color: #4a69bd;
@@ -31,13 +31,11 @@ const Select = styled.select`
   text-align: center;
   cursor: pointer;
 `
-
-export default function CardHeader({ title }) {
-  const context = useContext(Selected)
+export default function CardHeader({ onChange, title }) {
   const optionsValue = [
-    { label: '일 별', value: context.daily, color: '#00B8D9', id: 1 },
-    { label: '주 별', value: context.weekly, color: '#00875A', id: 2 },
-    { label: '월 별', value: context.monthly, color: '#FF8B00', id: 3 },
+    { label: '일 별', value: SORT_TYPE.DAILY, color: '#00B8D9', id: 1 },
+    { label: '주 별', value: SORT_TYPE.WEEKLY, color: '#00875A', id: 2 },
+    { label: '월 별', value: SORT_TYPE.MONTHLY, color: '#FF8B00', id: 3 },
   ]
 
   const [selectedOption, setSelectedOption] = useState([optionsValue[0].value])
@@ -45,6 +43,7 @@ export default function CardHeader({ title }) {
   function handleOnChage(e) {
     const currentValue = e.target.value
     setSelectedOption(currentValue)
+    onChange(e.target.value)
   }
 
   return (
