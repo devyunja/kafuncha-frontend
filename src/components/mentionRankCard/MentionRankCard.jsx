@@ -20,7 +20,7 @@ export default function MentionRankCard() {
     } else {
       acc.totalCount += curr.mentionCount
     }
-    return acc
+    return acc 
   }, {})
   const totalCount = totalCountObj.totalCount
 
