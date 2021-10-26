@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import RankMember from '../rankMember/RankMember'
-import RowGraph from '../cards/rowGraph/RowGraph'
-import styles from './mentionRankCard.module.css'
+import BarChart from '../barChart/BarChart'
+import styles from './MentionRankCard.module.css'
 import CardHeader from '../shared/CardHeader'
 import { SORT_TYPE } from '../../common/const'
 
@@ -23,7 +23,6 @@ export default function MentionRankCard() {
     return acc
   }, {})
   const totalCount = totalCountObj.totalCount
-  console.log('ddddd', totalCount)
 
   useEffect(() => {
     fetch(
@@ -110,6 +109,7 @@ export default function MentionRankCard() {
     let resultDate = `${y}-${m}-${d}`
     return resultDate
   }
+  console.log('ddddddddddd', mentionData)
 
   return (
     <div>
@@ -121,7 +121,7 @@ export default function MentionRankCard() {
       />
 
       <div className={styles.graphPar}>
-        <RowGraph wholeCount={totalCount} data={mentionData[sortType]} />
+        <BarChart wholeCount={totalCount} data={mentionData[sortType]} />
       </div>
       {loaded === true ? (
         <RankMember

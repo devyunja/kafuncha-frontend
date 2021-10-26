@@ -6,7 +6,10 @@ const PieChart = ({ keyWordRank, totalCount }) => {
 
   return (
     <div className={styles.pieChart__container}>
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1">
         {keyWordRank.map((el, idx) => {
           const r = 25
           const ratio = (el.count / totalCount) * 100
@@ -21,7 +24,9 @@ const PieChart = ({ keyWordRank, totalCount }) => {
               fill="transparent"
               stroke={pieColour[idx]}
               strokeWidth="50"
-              strokeDasharray={`calc(${ratio} * ${2 * Math.PI * r} / 100) ${2 * Math.PI * r}`}
+              strokeDasharray={`calc(${ratio} * ${2 * Math.PI * r} / 100) ${
+                2 * Math.PI * r
+              }`}
               transform-origin="50 50"
               transform={rotate}
               key={idx}
