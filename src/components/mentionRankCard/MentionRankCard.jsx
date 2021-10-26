@@ -109,7 +109,6 @@ export default function MentionRankCard() {
     let resultDate = `${y}-${m}-${d}`
     return resultDate
   }
-  console.log('ddddddddddd', mentionData)
 
   return (
     <div>
