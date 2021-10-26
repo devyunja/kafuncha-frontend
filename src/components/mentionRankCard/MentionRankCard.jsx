@@ -16,11 +16,11 @@ export default function MentionRankCard() {
   const [sortType, setSortType] = useState(SORT_TYPE.DAILY)
   const totalCountObj = mentionData[sortType].reduce((acc, curr) => {
     if (!acc.totalCount) {
-      acc.totalCount = curr.mentionCount
+      acc.totalCount = curr.count
     } else {
-      acc.totalCount += curr.mentionCount
+      acc.totalCount += curr.count
     }
-    return acc 
+    return acc
   }, {})
   const totalCount = totalCountObj.totalCount
 
@@ -85,7 +85,7 @@ export default function MentionRankCard() {
 
         return {
           user: ele[0],
-          mentionCount: ele[1],
+          count: ele[1],
           rank: rankNum,
         }
       })
@@ -125,7 +125,7 @@ export default function MentionRankCard() {
       {loaded === true ? (
         <RankMember
           rankData={mentionData[sortType]}
-          detail={[{ key: 'mentionCount', postFix: '회' }]}
+          detail={[{ key: 'count', postFix: '회' }]}
         />
       ) : (
         <div>로드 중</div>
