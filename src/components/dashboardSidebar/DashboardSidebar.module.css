@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background-color: #4985fb;
+}
+
+.info {
+}
+
+.title {
+}
