@@ -11,7 +11,9 @@ const DashboardLayout = props => {
         <DashboardHeader />
       </header>
       <div className={styles.content}>
-        <DashboardSidebar />
+        <aside className={styles.sidebar}>
+          <DashboardSidebar />
+        </aside>
         <main className={styles.main}>{props.children}</main>
       </div>
     </div>

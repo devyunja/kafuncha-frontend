@@ -4,8 +4,9 @@ import styles from './DashboardHeader.module.css'
 
 const DashboardHeader = () => {
   return (
-    <div className={styles.header__container}>
-      <h1 className={styles.header__title}>Kafuncha</h1>
+    <div className={styles.container}>
+      <img src={favicon} alt="Kafuncha logo" />
+      <h1 className={styles.title}>Kafuncha</h1>
     </div>
   )
 }

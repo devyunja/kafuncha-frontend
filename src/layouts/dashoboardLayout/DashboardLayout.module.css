@@ -15,11 +15,15 @@
   height: calc(100vh - var(--dashboardLayout-paddingTop, 40px));
 }
 
-.content main {
-  flex-grow: 1;
+.sidebar {
+  flex: 0 1 20%;
+  max-width: 250px;
 }
 
 .main {
-  /* display: flex; */
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-evenly;
+  padding: 10px 0;
   background-color: #f1f1f1;
 }
