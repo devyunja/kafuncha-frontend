@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './RankMember.module.css'
 const RankMember = ({ rankData, detail }) => {
-  console.log('rankData', rankData)
   return (
     <div className={styles.wrap}>
       <ul>
