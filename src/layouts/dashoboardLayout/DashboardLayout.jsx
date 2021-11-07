@@ -4,7 +4,6 @@ import DashboardSidebar from '../../components/dashboardSidebar/DashboardSidebar
 import styles from './DashboardLayout.module.css'
 
 const DashboardLayout = props => {
-  console.log(props)
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
