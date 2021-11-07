@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+
 import styles from './BarChart.module.css'
 
 const BarChart = ({ wholeCount, data }) => {
@@ -29,6 +31,11 @@ const BarChart = ({ wholeCount, data }) => {
       ))}
     </>
   )
+}
+
+BarChart.propTypes = {
+  wholeCount: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
 }
 
 export default BarChart

@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const RankMember = ({ rankData, detail }) => {
   return (
     <div>
       <ul>
-        {rankData.map(data => (
+        {rankData?.map(data => (
           <li key={data.user}>
             <div>
               <span>{data.rank}위</span>
@@ -21,6 +22,11 @@ const RankMember = ({ rankData, detail }) => {
       </ul>
     </div>
   )
+}
+
+RankMember.propTypes = {
+  rankData: PropTypes.array.isRequired,
+  detail: PropTypes.string.isRequired,
 }
 
 export default RankMember
