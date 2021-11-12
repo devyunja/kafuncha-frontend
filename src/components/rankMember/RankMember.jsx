@@ -10,7 +10,7 @@ const RankMember = ({ rankData, detail }) => {
             <div>
               <span>{data.rank}위</span>
               <span>{data.user} </span>
-              {detail.map(({ key, postFix }) => (
+              {detail?.map(({ key, postFix }) => (
                 <span key={key}>
                   {data[key]}
                   {postFix}
@@ -26,7 +26,7 @@ const RankMember = ({ rankData, detail }) => {
 
 RankMember.propTypes = {
   rankData: PropTypes.array.isRequired,
-  detail: PropTypes.string.isRequired,
+  detail: PropTypes.array,
 }
 
 export default RankMember

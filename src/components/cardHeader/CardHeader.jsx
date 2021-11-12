@@ -30,28 +30,24 @@ const Select = styled.select`
   cursor: pointer;
 `
 
-export default function CardHeader({ title }) {
-  const optionsValue = [
-    { label: '일 별', value: 'daily', color: '#00B8D9', id: 1 },
-    { label: '주 별', value: 'weekly', color: '#00875A', id: 2 },
-    { label: '월 별', value: 'monthly', color: '#FF8B00', id: 3 },
-  ]
+const basicOptions = [
+  { label: '일 별', value: 'daily' },
+  { label: '주 별', value: 'weekly' },
+  { label: '월 별', value: 'monthly' },
+]
 
-  // selectedOption은 globalState로 관리해서 데이터 받아오는 곳에서 props로 사용하면 좋을 것 같습니다.
-  const [selectedOption, setSelectedOption] = useState([optionsValue[0].value])
-
-  function handleOnChage(e) {
-    const currentValue = e.target.value
-    setSelectedOption(currentValue)
-  }
-
+export default function CardHeader({
+  title,
+  selectOptions = basicOptions,
+  changeSelectOption,
+}) {
   return (
     <Container>
       <Header>
         <Title>{title}</Title>
-        <Select onChange={handleOnChage}>
-          {optionsValue.map((option, key) => (
-            <option value={option.value} key={option.id}>
+        <Select onChange={changeSelectOption}>
+          {selectOptions.map(option => (
+            <option value={option.value} key={`${title}-${option.value}`}>
               {option.label}
             </option>
           ))}
@@ -63,4 +59,5 @@ export default function CardHeader({ title }) {
 
 CardHeader.propTypes = {
   title: PropTypes.string.isRequired,
+  selectOptions: PropTypes.array,
 }
