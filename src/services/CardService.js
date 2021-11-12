@@ -45,4 +45,32 @@ const getRankDatas = datas => {
   }
 }
 
-export { getRankDatas }
+const isBelong = (current, based, more, less) => {
+  const timeInterval = current - based
+  return timeInterval >= more && timeInterval < less
+}
+
+const filterPrunes = (datas, more, less) => {
+  const basedTimeDiff = datas[0].dataDiff
+  let rankIndex = 1
+
+  return datas
+    .filter(el => isBelong(el.dataDiff, basedTimeDiff, more, less))
+    .map((el, index, arr) => {
+      if (index > 0 && arr[index - 1].lastShowDate !== el.lastShowDate)
+        ++rankIndex
+      return { rank: rankIndex, user: el.user, lastShowDate: el.lastShowDate }
+    })
+}
+
+const getPruneMembers = datas => {
+  datas.reverse()
+
+  return {
+    more3Less5Days: filterPrunes(datas, 3, 5),
+    more5less7Days: filterPrunes(datas, 5, 7),
+    more7Days: filterPrunes(datas, 7, Number.MAX_VALUE),
+  }
+}
+
+export { getRankDatas, getPruneMembers }
