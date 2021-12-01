@@ -1,10 +1,28 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import RankMember from '../rankMember/RankMember'
+import BarChart from '../barChart/BarChart'
+import styles from './MentionRankCard.module.css'
+import CardHeader from '../shared/CardHeader'
+import { SORT_TYPE } from '../../common/const'
+import { getData } from '../../services/MentionRankDataPipeService'
 
 export default function MentionRankCard() {
-  const today = new Date()
-
-  let daily = []
-  let weekly = []
+  const [loaded, setLoaded] = useState(false)
+  const [mentionData, setMentionData] = useState({
+    [SORT_TYPE.DAILY]: [],
+    [SORT_TYPE.WEEKLY]: [],
+    [SORT_TYPE.MONTHLY]: [],
+  })
+  const [sortType, setSortType] = useState(SORT_TYPE.DAILY)
+  const totalCountObj = mentionData[sortType].reduce((acc, curr) => {
+    if (!acc.totalCount) {
+      acc.totalCount = curr.count
+    } else {
+      acc.totalCount += curr.count
+    }
+    return acc
+  }, {})
+  const totalCount = totalCountObj.totalCount
 
   useEffect(() => {
     fetch(
@@ -16,106 +34,38 @@ export default function MentionRankCard() {
         }
       })
       .then(data_1 => {
-        console.log(data_1)
-
-        const weekAgoString = weekAgo()
-        const todayString = dateTimestampToString(today)
-        const todayTimestamp = dateStringToTimestamp(todayString)
-
-        const firstEle = data_1[0]
-
-        data_1.map(ele => {
-          if (ele.date === todayString) {
-            daily.push(ele)
-          }
+        setMentionData({
+          [SORT_TYPE.DAILY]: getData(data_1, 1),
+          [SORT_TYPE.WEEKLY]: getData(data_1, 7),
+          [SORT_TYPE.MONTHLY]: getData(data_1, 30),
         })
 
-        data_1.some(ele => {
-          if (
-            dateStringToTimestamp(firstEle.date) <
-            dateStringToTimestamp(weekAgoString)
-          ) {
-            console.log('No data')
-            return true
-          } else if (ele.date === weekAgoString) {
-            return true
-          } else {
-            weekly.push(ele)
-          }
-        })
-        console.log('daily', daily)
-        console.log('weekly', weekly)
-        // console.log('daily', daily)
+        setLoaded(true)
 
-        return daily, weekly
-      })
-      .then(data_2 => {
-        const data = data_2.reduce(
-          (acc, curr) => {
-            if (acc.user === curr.user) {
-              acc.count += curr.mentionCount
-            } else if (acc.user !== curr.user) {
-              const idx = acc.findIndex(ele => ele.user === curr.user)
-              if (idx >= 0) {
-                acc[idx].count += curr.mentionCount
-              } else if (idx === -1) {
-                acc.push({ user: curr.user, count: curr.mentionCount })
-              }
-            }
-            return acc
-          },
-          [{ user: '', count: 0 }]
-        )
-        const result = data.slice(1)
-
-        return result
-      })
-      .then(data_3 => {
-        data_3.sort((a, b) => {
-          if (a.count < b.count) {
-            return 1
-          }
-          if (a.count > b.count) {
-            return -1
-          }
-          if (a.count === b.count) {
-            return 0
-          }
-        })
-        console.log('결과', data_3)
+        return
       })
   }, [])
 
-  function dateStringToTimestamp(str) {
-    var y = str.substr(0, 4)
-    var m = str.substr(5, 2)
-    var d = str.substr(8, 2)
-    return new Date(`${y}-${m}-${d}`)
-  }
-
-  function dateTimestampToString(timestamp) {
-    //날짜 String으로 추출
-
-    const date = new Date(timestamp)
-    const y = date.getFullYear()
-    const m = ('0' + (1 + date.getMonth())).slice(-2)
-    const d = ('0' + date.getDate()).slice(-2)
-
-    let resultDate = `${y}-${m}-${d}`
-    return resultDate
-  }
-
-  function weekAgo() {
-    const weekAgoTimestamp = today.getTime() - 6 * 24 * 60 * 60 * 1000
-    const weekAgoString = dateTimestampToString(weekAgoTimestamp)
-    return weekAgoString
-  }
   return (
-    <>
-      {/* <RankMember
-        data={data}
-        detail={[{ key: 'messageCount', postFix: '회' }]}
-      /> */}
-    </>
+    <div>
+      <CardHeader
+        onChange={val => {
+          setSortType(val)
+        }}
+        title={'멘션 랭킹'}
+      />
+
+      <div className={styles.graphBar}>
+        <BarChart wholeCount={totalCount} data={mentionData[sortType]} />
+      </div>
+      {loaded === true ? (
+        <RankMember
+          rankData={mentionData[sortType]}
+          detail={[{ key: 'count', postFix: '회' }]}
+        />
+      ) : (
+        <div>로드 중</div>
+      )}
+    </div>
   )
 }
