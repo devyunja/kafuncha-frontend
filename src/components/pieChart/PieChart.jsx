@@ -1,8 +1,9 @@
 import styles from './PieChart.module.css'
 import PropTypes from 'prop-types'
 
-const PieChart = ({ keyWordRank, wholeCount }) => {
-  const pieColour = ['#D92414', '#F279A6', '#3279A6', '#808080']
+const pieColour = ['#D92414', '#F279A6', '#3279A6', '#808080']
+
+const PieChart = ({ datas, wholeCount }) => {
   let current_deg = -90
 
   return (
@@ -11,7 +12,7 @@ const PieChart = ({ keyWordRank, wholeCount }) => {
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
         version="1.1">
-        {keyWordRank.map((el, idx) => {
+        {datas?.map((el, idx) => {
           const r = 25
           const ratio = (el.count / wholeCount) * 100
           const rotate = `rotate(${current_deg})`
@@ -36,7 +37,7 @@ const PieChart = ({ keyWordRank, wholeCount }) => {
         })}
       </svg>
       <div className={styles.pieChart__info}>
-        {keyWordRank.map((el, idx) => (
+        {datas?.map((el, idx) => (
           <>
             <div
               className={styles['pieChart__info--box']}
@@ -50,7 +51,7 @@ const PieChart = ({ keyWordRank, wholeCount }) => {
 }
 
 PieChart.propTypes = {
-  keyWordRank: PropTypes.array.isRequired,
+  datas: PropTypes.array.isRequired,
   wholeCount: PropTypes.number.isRequired,
 }
 

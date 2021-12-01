@@ -13,7 +13,7 @@ const DashboardLayout = props => {
         <aside className={styles.sidebar}>
           <DashboardSidebar />
         </aside>
-        <main className={styles.main}>{props.children}</main>
+        <main className={styles.main}>{props?.children}</main>
       </div>
     </div>
   )

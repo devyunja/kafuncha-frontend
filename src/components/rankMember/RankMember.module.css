@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.rank {
+  width: 20%;
+  color: #2c6fde;
+  margin-bottom: 5px;
+}
+
+.info {
+  margin-left: auto;
+  color: #808080;
+}

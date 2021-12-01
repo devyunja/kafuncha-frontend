@@ -17,13 +17,14 @@ const Header = styled.div`
 `
 
 const Title = styled.span`
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 700;
 `
 
 const Select = styled.select`
   width: 60px;
   height: 20px;
+  border: 0;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
