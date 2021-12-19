@@ -64,7 +64,7 @@ export default function MentionRankCard() {
           detail={[{ key: 'count', postFix: '회' }]}
         />
       ) : (
-        <div>로드 중..</div>
+        <div>로드 중...</div>
       )}
     </div>
   )
